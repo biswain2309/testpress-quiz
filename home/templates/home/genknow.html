@@ -89,46 +89,45 @@
                 Quiz</span></a>
     </nav>
 
-    <div class="row">
-        <div class="col-6">
-            <h2>Avaliable Quizes</h2>
-            <div class="card">
-                <div class="card-body">
-                    <h5>General Knowledge</h5>
-                    <p>Click on the below link to start the text</p>
-                    <a href="{% url 'genknow' %}" class="card-link">Start</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5>History</h5>
-                    <p>Click on the below link to start the text</p>
-                    <a href="{% url 'history' %}" class="card-link">Start</a>
-                </div>
-            </div>
-        </div>
+    {% for data in datas %}
 
-        <div class="col-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5>Sports</h5>
-                    <p>Click on the below link to start the text</p>
-                    <a href="{% url 'sports' %}" class="card-link">Start</a>
-                </div>
-            </div>
-        </div>
+    {{ data.3 }}<br />
 
-        <div class="col-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5>Science: Computers</h5>
-                    <p>Click on the below link to start the text</p>
-                    <a href="{% url 'science' %}" class="card-link">Start</a>
-                </div>
-            </div>
-        </div>
+    <form>
+        <label class="radio-inline">
+            <input type="radio" name="optradio" checked>{{ data.4 }}</label>
+        {% for i in data.5 %}
+        <label class="radio-inline">
+            <input type="radio" name="optradio">{{ i }}</label>
+        {% endfor %}
+    </form>
+
+    {% endfor %}
+
+    <div class="pagination">
+
+        <span class="step-links">
+
+            {% if datas.has_previous %}
+
+            <a href="?page={{ datas.previous_page_number }}">previous</a>
+
+            {% endif %}
+
+            <span class="current">
+
+                Page {{ datas.number }} of {{ datas.paginator.num_pages }}.
+
+            </span>
+
+            {% if datas.has_next %}
+
+            <a href="?page={{ datas.next_page_number }}">next</a>
+
+            {% endif %}
+
+        </span>
+
     </div>
 
     <footer class="text-muted">

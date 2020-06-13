@@ -6,6 +6,7 @@ from home import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('auth/', include('core.urls')),
-    path('', views.home, name='home'),
+    path('', include('core.urls')),
+    path('home/', views.home, name='home'),
+    path('home/genknow', views.genknow, name='genknow'),
 ]
