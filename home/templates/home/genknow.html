@@ -93,16 +93,20 @@
 
     {{ data.3 }}<br />
 
-    <form>
+    <form method="POST" action="">
         <label class="radio-inline">
             <input type="radio" name="optradio" checked>{{ data.4 }}</label>
         {% for i in data.5 %}
         <label class="radio-inline">
             <input type="radio" name="optradio">{{ i }}</label>
         {% endfor %}
+        <div class="col-sm-4 mb-2">
+            <input type="submit" class="btn btn-block btn-success shadow">Submit</input>
+        </div>
     </form>
 
     {% endfor %}
+
 
     <div class="pagination">
 
