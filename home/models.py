@@ -17,3 +17,11 @@ class Question(models.Model):
 
     def __str__(self):
             return self.ques
+    
+
+    def __str__(self):
+            return self.ans
+
+
+    def __str__(self):
+            return self.corr_ans

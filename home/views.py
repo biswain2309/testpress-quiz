@@ -25,7 +25,10 @@ def instr(request):
             qs.type_qs = items['type']
             qs.difficulty = items['difficulty']
             qs.ques = items['question']
+
+            items['correct_answer'].replace(',','')
             qs.corr_ans = items['correct_answer']
+
             items['incorrect_answers'].append(items['correct_answer'])
             random.shuffle(items['incorrect_answers'])
 
@@ -33,24 +36,28 @@ def instr(request):
                 list_ans.append(item.replace(',', ''))
             qs.ans = list_ans
             
-            qs.save()    
+            qs.save() 
+
+            category = items['category']
+        ques_list = Question.objects.all()
+        print('ques_list in instr', ques_list)
+
+    return render(request, 'home/instr.html', {'category': category})
+   
         
 
 
 def genknow(request):
 
-
-    page = request.GET.get('page')
-    paginator = Paginator(qs, 1)
+    ques_list = Question.objects.all().order_by('id')
+    print('ques_list in genknow', ques_list)
+    page = request.GET.get('page', 1)
+    paginator = Paginator(ques_list, 1)
     try:
-        page_count = paginator.page(page)
-        counter += 1
+        users = paginator.page(page)
     except PageNotAnInteger:
-        page_count = paginator.page(1)
+        users = paginator.page(1)
     except EmptyPage:
-        page_count = paginator.page(paginator.num_pages)
-    
-    print('page_count', page_count)
-    print('type(page_count)', type(page_count))
+        users = paginator.page(paginator.num_pages)
 
-    return render(request, 'home/genknow.html', {'datas':page_count})
+    return render(request, 'home/genknow.html', {'users':users})

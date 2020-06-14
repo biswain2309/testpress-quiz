@@ -8,6 +8,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
     path('home/', views.home, name='home'),
-    path('home/instr/genknow', views.instr, name='genknow'),
-    path('home/genknow', views.genknow, name='genknow1'),
+    path('home/instr/genknow', views.instr, name='gen'),
+    path('home/genknow', views.genknow, name='genknow'),
 ]
