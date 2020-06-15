@@ -90,41 +90,44 @@
     </nav>
 
 
-    {% for user in users %}
-    <label class="radio-inline">
-        <input type="radio" name="optradio" checked>{{ user.ques }}</label>
-    {% for i in user.ans %}
-    <li>
-        <label class="radio-inline"></label>
-        <input type="radio" name="optradio">{{ i }}
-        </label>
-    </li>
-    {% endfor %}
-    <div class="col-sm-4 mb-2">
-        <input type="submit" class="btn btn-block btn-success shadow">Submit</input>
-    </div>
-    {% endfor %}
+    <form method="POST" action="{% url 'check' %}">
+        {% csrf_token %}
+        {% for user in users %}
+        <h6>{{ user.ques }}</h6>
+        {% for i in user.ans %}
+        <li>
+            <label class=" radio-inline"></label>
+            <input type="radio" name="userans" id="{{ i }}" value="{{ i }}">{{ i }}
+            </label>
+        </li>
+        {% endfor %}
 
-    <div class="pagination">
+        <div class="col-sm-4 mb-2">
+            <button type="submit" class="btn btn-block btn-success shadow">Submit</input>
+        </div>
+        {% endfor %}
 
-        <span class="step-links">
 
-            <span class="current">
+        <div class="pagination">
 
-                Page {{ users.number }} of {{ users.paginator.num_pages }}.
+            <span class="step-links">
+
+                <span class="current">
+
+                    Page {{ users.number }} of {{ users.paginator.num_pages }}.
+
+                </span>
+
+                {% if users.has_next %}
+
+                <a href="?page={{ users.next_page_number }}">next</a>
+
+                {% endif %}
 
             </span>
 
-            {% if users.has_next %}
-
-            <a href="?page={{ users.next_page_number }}">next</a>
-
-            {% endif %}
-
-        </span>
-
-    </div>
-
+        </div>
+    </form>
 
     <footer class="text-muted">
         <div class="footer">

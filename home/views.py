@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import requests
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import F
 from .models import Question
 import random
 
@@ -35,6 +36,8 @@ def instr(request):
             for item in items['incorrect_answers']:
                 list_ans.append(item.replace(',', ''))
             qs.ans = list_ans
+            print('list_ans', list_ans)
+            print('qs.ans', qs.ans)
             
             qs.save() 
 
@@ -61,3 +64,29 @@ def genknow(request):
         users = paginator.page(paginator.num_pages)
 
     return render(request, 'home/genknow.html', {'users':users})
+
+
+def check(request):
+
+    if request.method == "POST":
+        u_answer = request.POST.get('userans')
+        print('u_answer', u_answer)
+        
+        try:
+            user_question = Question.objects.get(corr_ans=u_answer)
+            
+        except Question.DoesNotExist:
+            user_question = None
+            user_correct_answer = Question.objects.filter(ans__contains=[u_answer]).values('corr_ans')
+        
+        if user_question == None:
+            flag_status = 'fail'
+        else:
+            flag_status = 'pass'
+
+        
+    return redirect(request, 'home/genknow.html', {
+        'flag_status': flag_status,
+        'user_correct_answer':user_correct_answer,
+        'users':users
+        })
