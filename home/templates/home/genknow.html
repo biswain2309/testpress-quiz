@@ -90,10 +90,11 @@
     </nav>
 
 
+    {% for user in users %}
     <form method="POST" action="{% url 'check' %}">
         {% csrf_token %}
-        {% for user in users %}
-        <h6>{{ user.ques }}</h6>
+
+        <p name="userqs">{{ user.ques }}</p>
         {% for i in user.ans %}
         <li>
             <label class=" radio-inline"></label>
@@ -105,6 +106,12 @@
         <div class="col-sm-4 mb-2">
             <button type="submit" class="btn btn-block btn-success shadow">Submit</input>
         </div>
+
+        <!-- <div class="col-sm-4 mb-2">
+            <a href=""><button
+                    class="btn btn-primary btn-lg btn-block">Submit
+                    {{ user.corr_ans }}</button></a>
+        </div> -->
         {% endfor %}
 
 
@@ -128,6 +135,9 @@
 
         </div>
     </form>
+
+    <p>{{ flag_status }}</p>
+    <p>{{ user_correct_answer }}</p>
 
     <footer class="text-muted">
         <div class="footer">

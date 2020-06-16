@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 import requests
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import F
 from .models import Question
 import random
+from .forms import QuestionForm
 
 
 
@@ -53,7 +54,6 @@ def instr(request):
 def genknow(request):
 
     ques_list = Question.objects.all().order_by('id')
-    print('ques_list in genknow', ques_list)
     page = request.GET.get('page', 1)
     paginator = Paginator(ques_list, 1)
     try:
@@ -68,10 +68,11 @@ def genknow(request):
 
 def check(request):
 
+
     if request.method == "POST":
         u_answer = request.POST.get('userans')
         print('u_answer', u_answer)
-        
+
         try:
             user_question = Question.objects.get(corr_ans=u_answer)
             
@@ -85,8 +86,7 @@ def check(request):
             flag_status = 'pass'
 
         
-    return redirect(request, 'home/genknow.html', {
+    return render(request, 'home/check.html', {
         'flag_status': flag_status,
-        'user_correct_answer':user_correct_answer,
-        'users':users
+        'user_correct_answer':user_correct_answer
         })
