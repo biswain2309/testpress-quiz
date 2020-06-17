@@ -10,5 +10,5 @@ urlpatterns = [
     path('home/', views.home, name='home'),
     path('home/instr/genknow', views.instr, name='gen'),
     path('home/genknow', views.genknow, name='genknow'),
-    path('home/genknow/chk', views.check, name='check'),
+    path('home/genknow', views.genknow, name='check'),
 ]

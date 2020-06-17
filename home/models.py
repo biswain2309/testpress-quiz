@@ -1,9 +1,12 @@
 from django.db import models
 # from django_mysql.models import ListTextField
 from django.contrib.postgres.fields import ArrayField
+import uuid
 
 
 class Question(models.Model):
+#     question_id = models.IntegerField(default=1) 
+#     question_id = models.UUIDField(primary_key=True, default=uuid.uuid4)   
     category = models.CharField(max_length=100)
     type_qs = models.CharField(max_length=100)
     difficulty = models.CharField(max_length=100)

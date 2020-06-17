@@ -89,13 +89,14 @@
                 Quiz</span></a>
     </nav>
 
-
-    {% for user in users %}
+    {{ page_obj }}
+    {{ show_next }}
+    {% for p in page_obj %}
     <form method="POST" action="{% url 'check' %}">
         {% csrf_token %}
 
-        <p name="userqs">{{ user.ques }}</p>
-        {% for i in user.ans %}
+        <p>{{ p.ques }}</p>
+        {% for i in p.ans %}
         <li>
             <label class=" radio-inline"></label>
             <input type="radio" name="userans" id="{{ i }}" value="{{ i }}">{{ i }}
@@ -107,37 +108,34 @@
             <button type="submit" class="btn btn-block btn-success shadow">Submit</input>
         </div>
 
-        <!-- <div class="col-sm-4 mb-2">
-            <a href=""><button
-                    class="btn btn-primary btn-lg btn-block">Submit
-                    {{ user.corr_ans }}</button></a>
-        </div> -->
         {% endfor %}
+    </form>
 
 
-        <div class="pagination">
+    <div class="pagination">
 
-            <span class="step-links">
+        <span class="step-links">
 
-                <span class="current">
+            <span class="current">
 
-                    Page {{ users.number }} of {{ users.paginator.num_pages }}.
-
-                </span>
-
-                {% if users.has_next %}
-
-                <a href="?page={{ users.next_page_number }}">next</a>
-
-                {% endif %}
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
 
             </span>
 
-        </div>
-    </form>
+            {% if page_obj.has_next %}
 
-    <p>{{ flag_status }}</p>
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+
+            {% endif %}
+
+        </span>
+
+    </div>
+
+
     <p>{{ user_correct_answer }}</p>
+
+
 
     <footer class="text-muted">
         <div class="footer">
